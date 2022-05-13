@@ -397,6 +397,8 @@ bool _upb_extreg_add(upb_ExtensionRegistry* r,
   for (; e < end; e++) {
     const upb_MiniTable_Extension* ext = *e;
     extreg_key(buf, ext->extendee, ext->field.number);
+    // TODO: we should gracefully handle the case where this already exists.
+    // Right now we're only checking for out of memory.
     if (!upb_strtable_insert(&r->exts, buf, EXTREG_KEY_SIZE,
                              upb_value_constptr(ext), r->arena)) {
       goto failure;

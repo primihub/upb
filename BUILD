@@ -411,6 +411,7 @@ cc_test(
     name = "msg_test",
     srcs = ["upb/msg_test.cc"],
     deps = [
+        ":fuzz_test_util",
         ":json",
         ":msg_test_upb_proto",
         ":msg_test_upb_proto_reflection",
@@ -597,6 +598,16 @@ sh_test(
         "@com_google_protobuf//conformance:conformance_test_runner",
     ],
     deps = ["@bazel_tools//tools/bash/runfiles"],
+)
+
+cc_library(
+    name = "fuzz_test_util",
+    srcs = ["upb/fuzz_test_util.cc"],
+    hdrs = ["upb/fuzz_test_util.h"],
+    deps = [
+        ":mini_table",
+        ":upb",
+    ],
 )
 
 # Internal C/C++ libraries #####################################################
