@@ -178,6 +178,12 @@ static bool PyUpb_PyToUpbEnum(PyObject* obj, const upb_EnumDef* e,
 
 bool PyUpb_PyToUpb(PyObject* obj, const upb_FieldDef* f, upb_MessageValue* val,
                    upb_Arena* arena) {
+  if (!strcmp(obj->ob_type->tp_name, "numpy.ndarray")) {
+    PyErr_Format(PyExc_TypeError,
+                 "%s has type numpy.ndarray, but expected one of:", obj,
+                 upb_FieldDef_TypeString(f));
+    return false;
+  }
   switch (upb_FieldDef_CType(f)) {
     case kUpb_CType_Enum:
       return PyUpb_PyToUpbEnum(obj, upb_FieldDef_EnumSubDef(f), val);
